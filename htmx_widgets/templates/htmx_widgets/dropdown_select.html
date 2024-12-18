@@ -1,0 +1,126 @@
+{% load django_htmx %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="{% static 'js/htmx/htmx.min.js' %}"></script>
+    <script src="{% static 'js/htmx/extensions/include-vals.js' %}"></script>
+    {% comment %} {% django_htmx_script %}  {% endcomment %}
+    <style>
+        .dropdown_select_div {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: fit-content;
+        }
+    .scrollable-list {
+        display: none; /* Initially hidden */
+        height: 100px; /* Adjust height as needed */
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+        .scrollable-list ul {
+            padding-left: 0;
+            margin-left: 0;   
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .scrollable-list li {
+            list-style-type: none;
+            padding-left: 5px;
+            margin: 5px 0;
+        }
+        .scrollable-list li:hover {
+            cursor: pointer;
+            outline: 1px solid gray;
+        }
+        .search {
+            border: none;
+            flex: 1;
+        }
+        .button-input {
+            border-color: #ccc;
+            border-style: solid;
+            border-radius: 5px;
+            padding-left: 5px;
+            padding-right: 5px;
+            margin: 2px; /* Add some margin for spacing */
+            white-space: nowrap;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            max-width: 33vw;
+            flex-wrap: wrap;
+        }
+        .button-group {
+            display: flex;
+            flex-shrink: 0; /* Prevent the button group from shrinking */
+            align-items: center;
+            border-radius: 5px;
+            padding: 5px;
+            max-width: 33vw;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    
+    <div class="dropdown_select_div">
+        <div class="input-group">
+            <div class="button-group">
+
+            </div>
+            <input class="search" type="text" placeholder="Search"
+        
+            name="first_name"
+            hx-get="{% url 'widgets:search' %}" 
+            hx-trigger="keyup" 
+            hx-target=".scrollable-list" 
+            hx-swap="innerHTML">
+        </div>
+        <div class="scrollable-list">
+            <ul>
+                <li>Element 1</li>
+                <li>Element 2</li>
+                <li>Element 3</li>
+                <li>Element 4</li>
+                <li>Element 5</li>
+                <li>Element 6</li>
+                <li>Element 7</li>
+                <li>Element 8</li>
+                <li>Element 9</li>
+                <li>Element 10</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputField = document.querySelector('.search');
+            const scrollableList = document.querySelector('.scrollable-list');
+    
+            inputField.addEventListener('focus', function() {
+                scrollableList.style.display = 'block';
+            });
+    
+            inputField.addEventListener('blur', function() {
+                // Use a timeout to allow click events on the list items to be registered
+                setTimeout(function() {
+                    scrollableList.style.display = 'none';
+                }, 200);
+            });
+    
+            // Optional: Keep the list visible if clicking inside it
+            scrollableList.addEventListener('mousedown', function(event) {
+                event.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+[project]
+name = "django-htmx-widgets"
+version = "0.1.0"
+description = "This is a Django app that provides a set of widgets that can be used with htmx."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "django-htmx>=1.21.0",
+    "django>=5.1.4",
+]
