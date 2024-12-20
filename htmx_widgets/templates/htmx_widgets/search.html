@@ -4,7 +4,7 @@
         <a 
         hx-post="{% url 'widgets:add_item' %}"  
         hx-vals='{"item_id": "{{ item.id }}"}'
-        hx-target=".button-group"
+        hx-target=".pill-group"
         hx-swap="beforeend">
              {{item.first_name}} 
             </a>

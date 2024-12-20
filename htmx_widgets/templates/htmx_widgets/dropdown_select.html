@@ -5,7 +5,7 @@
 <head>
     <script src="{% static 'js/htmx/htmx.min.js' %}"></script>
     <script src="{% static 'js/htmx/extensions/include-vals.js' %}"></script>
-    {% comment %} {% django_htmx_script %}  {% endcomment %}
+    {% django_htmx_script %}  
     <style>
         .dropdown_select_div {
             display: flex;
@@ -13,15 +13,15 @@
             align-items: flex-start;
             width: fit-content;
         }
-    .scrollable-list {
-        display: none; /* Initially hidden */
-        height: 100px; /* Adjust height as needed */
-        overflow-y: auto;
-        border: 1px solid #ccc;
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-    }
+        .scrollable-list {
+            display: none; /* Initially hidden */
+            height: 100px; /* Adjust height as needed */
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
         .scrollable-list ul {
             padding-left: 0;
             margin-left: 0;   
@@ -38,10 +38,13 @@
             outline: 1px solid gray;
         }
         .search {
-            border: none;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
             flex: 1;
+            margin-right: 10px; /* Add some space between the input and button group */
         }
-        .button-input {
+        .pill-select {
             border-color: #ccc;
             border-style: solid;
             border-radius: 5px;
@@ -59,7 +62,7 @@
             max-width: 33vw;
             flex-wrap: wrap;
         }
-        .button-group {
+        .pill-group {
             display: flex;
             flex-shrink: 0; /* Prevent the button group from shrinking */
             align-items: center;
@@ -74,31 +77,25 @@
     
     <div class="dropdown_select_div">
         <div class="input-group">
-            <div class="button-group">
-
-            </div>
             <input class="search" type="text" placeholder="Search"
-        
             name="first_name"
             hx-get="{% url 'widgets:search' %}" 
-            hx-trigger="keyup" 
+            hx-trigger="keyup, click"
             hx-target=".scrollable-list" 
             hx-swap="innerHTML">
+            <div class="scrollable-list">
+                {% for item in all_items %}
+                    <ul>
+                        <li>{{ item }}</li>
+                    </ul>
+                {% endfor %}
+            </div>
+            <div class="pill-group">
+
+            </div>
+
         </div>
-        <div class="scrollable-list">
-            <ul>
-                <li>Element 1</li>
-                <li>Element 2</li>
-                <li>Element 3</li>
-                <li>Element 4</li>
-                <li>Element 5</li>
-                <li>Element 6</li>
-                <li>Element 7</li>
-                <li>Element 8</li>
-                <li>Element 9</li>
-                <li>Element 10</li>
-            </ul>
-        </div>
+
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
